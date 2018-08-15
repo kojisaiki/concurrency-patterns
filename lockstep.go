@@ -20,6 +20,7 @@ func main() {
 	ch1 := generator("Hello", 300)
 	ch2 := generator("Bye", 1000)
 	for i := 0; i < 5; i++ {
+		// Bye1とHello2が同時に出るみたいな感じになる
 		fmt.Println(<-ch1)
 		fmt.Println(<-ch2)
 	}
