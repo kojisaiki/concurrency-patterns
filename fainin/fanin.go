@@ -33,7 +33,7 @@ func fanin(ch1, ch2 <-chan string) <-chan string {
 
 func main() {
 	ch := fanin(generator("Hello"), generator("Bye"))
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		fmt.Println(<-ch)
 	}
 }

@@ -40,7 +40,7 @@ func fanin(ch1, ch2 <-chan Message) <-chan Message {
 
 func main() {
 	ch := fanin(generator("Hello"), generator("Bye"))
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		msg1 := <-ch
 		fmt.Println(msg1.str)
 		msg2 := <-ch
