@@ -5,12 +5,19 @@ import (
 	"time"
 )
 
-func generator(msg string) <-chan string {
-	ch := make(chan string)
+type Message struct {
+	str   string
+	block chan int
+}
+
+func generator(msg string) <-chan Message {
+	ch := make(chan Message)
+	blockingStep := make(chan int)
 	go func() {
 		for i := 0; ; i++ {
-			ch <- fmt.Sprintf("%s %d", msg, i)
+			ch <- Message{fmt.Sprintf("%s %d", msg, i), blockingStep}
 			time.Sleep(time.Second)
+			blockingStep <- 1
 		}
 	}()
 	return ch
