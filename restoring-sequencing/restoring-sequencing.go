@@ -23,8 +23,8 @@ func generator(msg string) <-chan Message {
 	return ch
 }
 
-func fanin(ch1, ch2 <-chan string) <-chan string {
-	new_ch := make(chan string)
+func fanin(ch1, ch2 <-chan Message) <-chan Message {
+	new_ch := make(chan Message)
 	go func() {
 		for {
 			new_ch <- <-ch1
@@ -41,6 +41,12 @@ func fanin(ch1, ch2 <-chan string) <-chan string {
 func main() {
 	ch := fanin(generator("Hello"), generator("Bye"))
 	for i := 0; i < 10; i++ {
-		fmt.Println(<-ch)
+		msg1 := <-ch
+		fmt.Println(msg1.str)
+		msg2 := <-ch
+		fmt.Println(msg2.str)
+
+		<-msg1.block
+		<-msg2.block
 	}
 }
